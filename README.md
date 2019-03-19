@@ -1,4 +1,4 @@
-This is an imtermedaite level of React project with user authentication and authorization, and integrate a Firebase database with custom routing.
+This is an intermedaite level of React project with user authentication and authorization, and integrate a Firebase database with custom routing.
 
 
 
