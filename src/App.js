@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import {Router} from '@reach/router';
+import firebase from './Firebase';
+
+
 import Home from './Home';
 import Welcome from './Welcome';
 import Navigation from './Navigation';
+import Login from './Login';
+import Meetings from './Meetings';
+import Register from './Register';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -11,9 +18,21 @@ class App extends Component {
     super();
 
     this.state ={
-      user : "ray"
+      user : "null"
     };
   }
+
+  componentDidMount(){
+    const ref = firebase.database().ref('user');
+
+    ref.on('value', snapshot =>{
+      let FBuser = snapshot.val();
+      this.setState({
+        user:FBuser
+      });
+    } )
+  }
+
   render() {
     return (
       <div>
@@ -21,7 +40,15 @@ class App extends Component {
 
         {this.state.user && <Welcome user={this.state.user} />}
 
-        <Home user={this.state.user} />
+        <Router>
+          
+          <Home path ="/" user={this.state.user} />
+          <Login path = "/login"/>
+          <Meetings path = '/meetings' />
+          <Register path ='register' />
+
+        </Router>
+
       </div>
     );
   }
