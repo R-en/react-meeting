@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import FormError from './FormError';
+import firebase from './Firebase';
 
 class Register extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state = {
             displayName: '',
@@ -14,6 +15,7 @@ class Register extends Component{
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e){
@@ -35,9 +37,34 @@ class Register extends Component{
         });
     }
 
+    handleSubmit(e){
+        var RegisterationInfo ={
+            displayName: this.state.displayName,
+            email: this.state.email,
+            password: this.state.passOne
+        };
+
+        e.preventDefault();
+
+        firebase.auth().createUserWithEmailAndPassword(
+            RegisterationInfo.email,
+            RegisterationInfo.password
+        ).then (() =>{
+            this.props.registerUser(RegisterationInfo.displayName);
+        })
+        .catch(error =>{
+                if(error !== null){
+                    this.setState({errorMessage: error.message});
+                }else{
+                    this.setState({errorMessage: null});
+                }
+            }
+        );
+    }
+
     render(){
         return(
-            <form className="mt-3">
+            <form className="mt-3" onSubmit={this.handleSubmit}>
                 <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-8">
