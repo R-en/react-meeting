@@ -10,6 +10,7 @@ import Login from './Login';
 import Meetings from './Meetings';
 import Register from './Register';
 import CheckIn from './CheckIn';
+import Attendees from './Attendees';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,15 +27,15 @@ class App extends Component {
   }
 
   componentDidMount(){
-    firebase.auth().onAuthStateChanged(FBuser => {
-      if(FBuser){
+    firebase.auth().onAuthStateChanged(FBUser => {
+      if(FBUser){
         this.setState({
-          user: FBuser,
-          displayName: FBuser.displayName,
-          userID: FBuser.uid
+          user: FBUser,
+          displayName: FBUser.displayName,
+          userID: FBUser.uid
         });
 
-      const meetingsRef = firebase.database().ref('meetings/' + FBuser.uid);
+      const meetingsRef = firebase.database().ref('meetings/' + FBUser.uid);
       meetingsRef.on('value' , snapshot =>{
         let meetings = snapshot.val();
 
@@ -57,20 +58,20 @@ class App extends Component {
     }else {
         this.setState({
           user: null
-        })
+        });
       }
     });
   }
 
   registerUser = userName => {
-    firebase.auth().onAuthStateChanged(FBuser => {
-      FBuser.updateProfile({
+    firebase.auth().onAuthStateChanged(FBUser => {
+      FBUser.updateProfile({
         displayName: userName
       }).then(()=>{
         this.setState({
-          user: FBuser,
-          displayName: FBuser.displayName,
-          userID: FBuser.uid
+          user: FBUser,
+          displayName: FBUser.displayName,
+          userID: FBUser.uid
         });
         navigate('./meetings');
       })
@@ -108,11 +109,18 @@ class App extends Component {
           
           <Home path ="/" user={this.state.user} />
           <Login path = "/login"/>
-          <Meetings path = '/meetings' meetings={this.state.meetings}  addMeeting = {this.addMeeting}
+          <Meetings path = '/meetings' 
+                    meetings={this.state.meetings}
+                    addMeeting = {this.addMeeting}
                     userID = {this.state.userID}
           />
 
-          <CheckIn path="/checkin/:userID/:meetingID"></CheckIn>
+          <Attendees 
+                  path="/attendees/:userID/:meetingID"
+                  adminUser={this.state.userID}
+          />
+
+          <CheckIn path="/checkin/:userID/:meetingID" />
           <Register path ='register' registerUser = {this.registerUser}/>
 
         </Router>

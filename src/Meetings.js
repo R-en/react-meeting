@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import MeetingList from './MeetingList';
+import MeetingsList from './MeetingsList';
 
 class Meetings extends Component{
     constructor(props){
@@ -7,7 +7,7 @@ class Meetings extends Component{
 
         this.state = {
             meetingName: ""
-        }
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,7 +76,7 @@ class Meetings extends Component{
 
                         {this.props.meetings && (
                             <div className="list-group list-group-flush">
-                                <MeetingList userID = {this.props.userID} meetings={this.props.meetings} />
+                                <MeetingsList userID = {this.props.userID} meetings={this.props.meetings} />
                             </div>
                         )}
                     </div>

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import firebase from './Firebase';
-import {GoTrashcan} from 'react-icons/go';
+import {GoTrashcan, GoListUnordered} from 'react-icons/go';
 import { navigate } from '@reach/router';
 import {FaLink} from 'react-icons/fa';
 
-class Welcome extends Component{
+class MeetingsList extends Component{
     constructor(props){
         super(props);
 
@@ -21,14 +21,13 @@ class Welcome extends Component{
     render(){
         const {meetings} = this.props;
 
-        const myMeetings = meetings.map((item)=>{
+        const myMeetings = meetings.map(item => {
             return (
-                <div>
                     <div className="list-group-item d-flex" key={item.meetingID}>
 
                         <section  className="btn-group align-self-center" role="group" aria-label="Meeting options">
                             <button className="btn btn-sm btn-outline-secondary"
-                            title="Delete Merting"
+                            title="Delete Meeting"
                             onClick={e => this.deleteMeeting(e, item.meetingID)}
                             >
                             <GoTrashcan />
@@ -42,15 +41,23 @@ class Welcome extends Component{
                             >
                             <FaLink />
                             </button>
+
+                            <button className="btn btn-sm btn-outline-secondary"
+                            title="Attendees List"
+                            onClick={
+                                () => navigate(`/attendees/${this.props.userID}/${item.meetingID}`)
+                            }
+                            >
+                            <GoListUnordered />
+                            </button>
                         </section>
 
                         <section className="pl-3 aligh-self-center text-left">
                             {item.meetingName}
                         </section>
-                    </div>
-                </div>
-            )    
-        })
+                     </div>
+                  );    
+        });
         return(
             <div>
                {myMeetings}
@@ -60,4 +67,4 @@ class Welcome extends Component{
     }
 }
 
-export default Welcome;
+export default MeetingsList;

@@ -8,8 +8,8 @@ class CheckIn extends Component{
 
         this.state = {
             displayName: '',
-            userName: ''
-        }
+            email: ''
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,17 +27,22 @@ class CheckIn extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        const ref = firebase.database()
-                            .ref(`meetings/${this.props.userID}/${this.meetingID}/attendees`);
-        
+        const ref = firebase
+        .database()
+        .ref(
+          `meetings/${this.props.userID}/${
+            this.props.meetingID
+          }/attendees`
+        );
+                                
         ref.push(
             {
                 attendeeName: this.state.displayName,
-                attendeeEmail: this.state.email
+                attendeeEmail: this.state.email,
             }
         );
 
-        navigate(`/attendee/${this.props.userID}/${this.props.meetingID}`);
+        navigate( `/attendees/${this.props.userID}/${this.props.meetingID}`);
     }
 
     render(){
