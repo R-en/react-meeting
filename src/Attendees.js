@@ -22,7 +22,8 @@ class Attendees extends Component{
                 attendeesList.push({
                     attendeeID : item,
                     attendeeName: attendees[item].attendeeName,
-                    attendeeEmail: attendees[item].attendeeEmail
+                    attendeeEmail: attendees[item].attendeeEmail,
+                    star: attendees[item].star
                 });
             }
 
@@ -42,7 +43,11 @@ class Attendees extends Component{
                     </h1>
                     </div>
                 </div>
-                <AttendeesList userID = {this.props.userID} attendees = {this.state.displayAttendees} />
+                <AttendeesList 
+                userID = {this.props.userID} 
+                adminUser = {this.props.adminUser}
+                meetingID = {this.props.meetingID}
+                attendees = {this.state.displayAttendees} />
             </div>
         );
     }

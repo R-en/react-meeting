@@ -39,6 +39,7 @@ class CheckIn extends Component{
             {
                 attendeeName: this.state.displayName,
                 attendeeEmail: this.state.email,
+                star: false
             }
         );
 
